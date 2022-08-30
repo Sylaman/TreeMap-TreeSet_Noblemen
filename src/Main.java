@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.function.Predicate;
 
 public class Main {
 
@@ -17,20 +16,19 @@ public class Main {
         people.add(new Person("Nikolay", "Borisov", 10));
 
 
-        Comparator<Person> comparator = (Person o1, Person o2) -> {
-            String[] firstSurname = o1.getSurname().split(" ", maxWordsInSurname);
-            String[] secondSurname = o2.getSurname().split(" ", maxWordsInSurname);
+        Comparator<Person> comparator = (p1, p2) -> {
+            String[] firstSurname = p1.getSurname().split(" ", maxWordsInSurname);
+            String[] secondSurname = p2.getSurname().split(" ", maxWordsInSurname);
             if (firstSurname.length < secondSurname.length) {
                 return -1;
             } else if (firstSurname.length > secondSurname.length) {
                 return 1;
             } else {
-                return Integer.compare(o1.getAge(), o2.getAge());
+                return Integer.compare(p1.getAge(), p2.getAge());
             }
         };
 
-        Predicate<Person> isAdult = (Person o1) -> o1.getAge() <= 18;
-        people.removeIf(isAdult);
+        people.removeIf((p1) -> p1.getAge() < 18);
 
         Collections.sort(people, comparator);
         Collections.reverse(people);
